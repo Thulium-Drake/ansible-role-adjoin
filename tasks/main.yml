@@ -67,11 +67,11 @@
 
 - block:
     - name: "Check AD connection with testjoin"
-      shell: "/usr/bin/net ads testjoin -s /etc/samba/smb_main.conf </dev/null"
+      command: "/usr/bin/net ads testjoin -s /etc/samba/smb_main.conf </dev/null"
       changed_when: false
   rescue:
     - name: "Join primary AD domain"
-      shell: '/usr/bin/net ads join -s /etc/samba/smb_main.conf \
+      command: '/usr/bin/net ads join -s /etc/samba/smb_main.conf \
         -U{{ adjoin_service_username }}%{{ adjoin_service_userpassword }} \
         osName="{{ ansible_distribution }}" \
         osVer="{{ ansible_distribution_version }}" \
@@ -79,11 +79,11 @@
 
 - block:
     - name: "Check AD connection with testjoin"
-      shell: '/usr/bin/net ads testjoin -s /etc/samba/smb_mgmt.conf < /dev/null'
+      command: '/usr/bin/net ads testjoin -s /etc/samba/smb_mgmt.conf < /dev/null'
       changed_when: false
   rescue:
     - name: "Join secondary (management) AD domain"
-      shell: '/usr/bin/net ads join -s /etc/samba/smb_mgmt.conf \
+      command: '/usr/bin/net ads join -s /etc/samba/smb_mgmt.conf \
         -U{{ adjoin_mgmt_service_username }}%{{ adjoin_mgmt_service_userpassword }} \
         osName="{{ ansible_distribution }}" \
         osVer="{{ ansible_distribution_version }}" \

@@ -17,5 +17,5 @@
     state: restarted
 
 - name: clear sssd cache
-  shell: /usr/sbin/sss_cache -E
+  command: /usr/sbin/sss_cache -E
   ignore_errors: 'yes'

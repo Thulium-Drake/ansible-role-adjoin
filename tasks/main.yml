@@ -1,27 +1,24 @@
 ---
-#
 - name: "Install required packages - Debian-like"
   apt:
-    name: [
-      'ldap-utils',
-      'krb5-user',
-      'samba-common',
-      'sudo',
-      'sssd-ad'
-      ]
+    name:
+      - 'ldap-utils'
+      - 'krb5-user'
+      - 'samba-common'
+      - 'sudo'
+      - 'sssd-ad'
     state: present
   when: ansible_os_family == "Debian"
 
 - name: "Install required packages - RedHat-like"
   yum:
-    name: [
-      'openldap-clients',
-      'krb5-workstation',
-      'sssd',
-      'sudo',
-      'samba-winbind-clients',
-      'oddjob-mkhomedir'
-      ]
+    name:
+      - 'openldap-clients'
+      - 'krb5-workstation'
+      - 'sssd'
+      - 'sudo'
+      - 'samba-winbind-clients'
+      - 'oddjob-mkhomedir'
     state: present
   when: ansible_os_family == "RedHat"
 
@@ -69,25 +66,27 @@
   when: adjoin_mgmt_enabled
 
 - block:
-  - name: "Check AD connection with testjoin"
-    shell: "/usr/bin/net ads testjoin -s /etc/samba/smb_main.conf </dev/null"
-    changed_when: false
+    - name: "Check AD connection with testjoin"
+      shell: "/usr/bin/net ads testjoin -s /etc/samba/smb_main.conf </dev/null"
+      changed_when: false
   rescue:
     - name: "Join primary AD domain"
       shell: '/usr/bin/net ads join -s /etc/samba/smb_main.conf \
         -U{{ adjoin_service_username }}%{{ adjoin_service_userpassword }} \
-        osName="{{ ansible_distribution }}" osVer="{{ ansible_distribution_version }}"
+        osName="{{ ansible_distribution }}" \
+        osVer="{{ ansible_distribution_version }}" \
         createcomputer={{ adjoin_computer_objects_path }}'
 
 - block:
-  - name: "Check AD connection with testjoin"
-    shell: '/usr/bin/net ads testjoin -s /etc/samba/smb_mgmt.conf < /dev/null'
-    changed_when: false
+    - name: "Check AD connection with testjoin"
+      shell: '/usr/bin/net ads testjoin -s /etc/samba/smb_mgmt.conf < /dev/null'
+      changed_when: false
   rescue:
     - name: "Join secondary (management) AD domain"
       shell: '/usr/bin/net ads join -s /etc/samba/smb_mgmt.conf \
         -U{{ adjoin_mgmt_service_username }}%{{ adjoin_mgmt_service_userpassword }} \
-        osName="{{ ansible_distribution }}" osVer="{{ ansible_distribution_version }}"
+        osName="{{ ansible_distribution }}" \
+        osVer="{{ ansible_distribution_version }}" \
         createcomputer={{ adjoin_mgmt_computer_objects_path }}'
   when: adjoin_mgmt_enabled
 
@@ -110,9 +109,9 @@
     masked: "{{ item.masked }}"
     state: "{{ item.state }}"
   loop:
-    - { 'name': 'sssd', 'enabled': 'yes', 'masked': 'no', 'state': 'started' }
-    - { 'name': 'dbus', 'enabled': 'yes', 'masked': 'no', 'state': 'started' }
-    - { 'name': 'systemd-logind', 'enabled': 'no', 'masked': 'yes', 'state': 'stopped' }
+    - {'name':'sssd', 'enabled':'yes', 'masked':'no', 'state':'started'}
+    - {'name':'dbus', 'enabled':'yes', 'masked':'no', 'state':'started'}
+    - {'name':'systemd-logind', 'enabled':'no', 'masked':'yes', 'state':'stopped'}
 
 - name: "Configure extra services - RedHat-like"
   systemd:
@@ -121,7 +120,7 @@
     masked: "{{ item.masked }}"
     state: "{{ item.state }}"
   loop:
-    - { 'name': 'oddjobd', 'enabled': 'yes', 'masked': 'no', 'state': 'started' }
+    - {'name':'oddjobd', 'enabled':'yes', 'masked':'no', 'state':'started'}
   when: ansible_os_family == "RedHat"
 
 - name: "Configure Sudo permissions for admin users"

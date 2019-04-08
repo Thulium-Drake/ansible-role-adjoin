@@ -1,6 +1,6 @@
 ---
 - name: reconfigure debian pam
-  shell: DEBIAN_FRONTEND=noninteractive /usr/sbin/pam-auth-update --force
+  command: DEBIAN_FRONTEND=noninteractive /usr/sbin/pam-auth-update --force
   when: ansible_os_family == "Debian"
 
 - name: reconfigure redhat pam

@@ -1,0 +1,7 @@
+# {{ ansible_managed }}
+
+%{{ adjoin_linux_admins|regex_replace(' ','\ ')|lower }} ALL=(ALL) NOPASSWD:ALL
+
+{% if adjoin_mgmt_enabled %}
+%{{ adjoin_mgmt_linux_admins|regex_replace(' ','\ ')|lower }} ALL=(ALL) NOPASSWD:ALL
+{% endif %}

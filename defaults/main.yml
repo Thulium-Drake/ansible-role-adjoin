@@ -1,0 +1,48 @@
+---
+# Common settings for all domains
+adjoin_sssd_homedir: '/home/%u'
+adjoin_sssd_default_shell: '/bin/bash'
+# Please note that disabling arcfour-hmac-md5 can NOT be done without some
+# work on the AD controller's side
+adjoin_kerberos_enctypes: 'aes256-cts arcfour-hmac-md5'
+
+# Configure sudo permissions for the administrative groups in this file
+adjoin_configure_sudo: False
+
+# Information of the primary AD domain to join
+adjoin_domain_name: 'prod.example.com'
+adjoin_workgroup_name: 'PROD'
+
+adjoin_domain_controllers:
+  - 'dc1.prod.example.com'
+  - 'dc2.prod.example.com'
+
+adjoin_ldap_base_dn: 'dc=prod,dc=example,dc=com'
+adjoin_computer_objects_path: 'SomeOU/Computers'
+
+# This AD group will get full sudo privileges on the system
+adjoin_linux_admins: 'Linux Domain Admins'
+
+adjoin_service_username: 'administrator'
+# Please take adequate measures to protect this userpassword! For example,
+# use ansible-vault or passwordstore
+#
+# Please do make it more secure then this example! :-)
+adjoin_service_userpassword: 'Password1!'
+
+# Information for the secondary (management) AD domain to join
+adjoin_mgmt_enabled: False
+
+adjoin_mgmt_domain_name: 'mgmt.example.com'
+adjoin_mgmt_workgroup_name: 'MGMT'
+
+adjoin_mgmt_domain_controllers:
+  - 'dc1.mgmt.example.com'
+  - 'dc2.mgmt.example.com'
+
+adjoin_mgmt_ldap_base_dn: 'dc=mgmt,dc=example,dc=com'
+adjoin_mgmt_computer_objects_path: 'SomeOtherOU/Computers'
+adjoin_linux_admins: 'Management Linux Domain Admins'
+
+adjoin_mgmt_service_username: 'administrator'
+adjoin_mgmt_service_userpassword: 'Password1!'

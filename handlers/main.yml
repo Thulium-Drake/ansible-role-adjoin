@@ -1,0 +1,22 @@
+---
+- name: reconfigure debian pam
+  shell: DEBIAN_FRONTEND=noninteractive /usr/sbin/pam-auth-update --force
+  when: ansible_os_family == "Debian"
+
+- name: reconfigure redhat pam
+  command: "/usr/sbin/authconfig \
+    --enablesssd --enablerfc2307bis \
+    --enablesssdauth --disableforcelegacy \
+    --enablelocauthorize --enablemkhomedir \
+    --enablepamaccess --updateall"
+  when: ansible_os_family == "RedHat"
+
+- name: restart sssd
+  systemd:
+    name: sssd
+    state: restarted
+
+- name: clear sssd cache
+  shell: /usr/sbin/sss_cache -E
+  ignore_errors: yes
+

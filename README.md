@@ -42,7 +42,7 @@ There are 2 reasons for that:
 ## Usage
 After fulfilling the requirements above this role can be used as follows:
 
-* Check out this directory in your roles directory
+* Install the role (either from Galaxy or directly from GitHub)
 * Copy the defaults file to your inventory (or wherever you store them) and
   fill in the blanks
 * Add the role to your master playbook

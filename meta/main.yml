@@ -20,5 +20,6 @@ galaxy_info:
     - activedirectory
     - authentication
     - ad
+    - multidomain
 
 dependencies: []

@@ -1,0 +1,30 @@
+---
+dependency:
+  name: 'galaxy'
+driver:
+  name: 'docker'
+lint:
+  name: 'yamllint'
+platforms:
+  - name: 'debian9'
+    image: "geerlingguy/docker-debian9-ansible:latest"
+    command: '/lib/systemd/systemd'
+    pre_build_image: True
+    volumes:
+      - '/sys/fs/cgroup:/sys/fs/cgroup:ro'
+    privileged: True
+  - name: 'centos7'
+    image: "geerlingguy/docker-centos7-ansible:latest"
+    command: '/usr/sbin/init'
+    pre_build_image: True
+    volumes:
+      - '/sys/fs/cgroup:/sys/fs/cgroup:ro'
+    privileged: True
+provisioner:
+  name: 'ansible'
+  lint:
+    name: 'ansible-lint'
+verifier:
+  name: 'testinfra'
+  lint:
+    name: 'flake8'

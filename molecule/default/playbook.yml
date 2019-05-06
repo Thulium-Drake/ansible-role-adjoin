@@ -1,0 +1,15 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    adjoin_domain_name: 'dom1.lab'
+    adjoin_workgroup_name: 'DOM1'
+    adjoin_domain_controllers:
+      - 'dc.dom1.lab'
+    adjoin_ldap_base_dn: 'dc=dom1,dc=lab'
+    adjoin_computer_objects_path: 'Molecule/Computers'
+    adjoin_service_username: 'administrator'
+    adjoin_service_userpassword: 'Password1@'
+
+  roles:
+    - name: 'adjoin'

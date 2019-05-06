@@ -7,7 +7,7 @@ adjoin_sssd_default_shell: '/bin/bash'
 adjoin_kerberos_enctypes: 'aes256-cts arcfour-hmac-md5'
 
 # Configure sudo permissions for the administrative groups in this file
-adjoin_configure_sudo: 'False'
+adjoin_configure_sudo: False
 
 # Information of the primary AD domain to join
 adjoin_domain_name: 'prod.example.com'
@@ -31,7 +31,7 @@ adjoin_service_username: 'administrator'
 adjoin_service_userpassword: 'Password1!'
 
 # Information for the secondary (management) AD domain to join
-adjoin_mgmt_enabled: 'False'
+adjoin_mgmt_enabled: False
 
 adjoin_mgmt_domain_name: 'mgmt.example.com'
 adjoin_mgmt_workgroup_name: 'MGMT'

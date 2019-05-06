@@ -2,7 +2,7 @@
 [sssd]
 config_file_version = 2
 services = nss, pam
-domains = {{ adjoin_domain_name }} {% if adjoin_mgmt_enabled %}, {{ adjoin_mgmt_domain_name }} {% endif %}
+domains = {{ adjoin_domain_name }}{% if adjoin_mgmt_enabled %}, {{ adjoin_mgmt_domain_name }} {% endif %}
 
 debug_level = 3
 

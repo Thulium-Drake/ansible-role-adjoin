@@ -19,6 +19,7 @@
       - 'sudo'
       - 'samba-winbind-clients'
       - 'oddjob-mkhomedir'
+      - 'authconfig'
     state: present
   when: ansible_os_family == "RedHat"
 
@@ -67,7 +68,7 @@
 
 - block:
     - name: "Check AD connection with testjoin"
-      command: "/usr/bin/net ads testjoin -s /etc/samba/smb_main.conf </dev/null"
+      command: "timeout 5 /usr/bin/net ads testjoin -s /etc/samba/smb_main.conf"
       changed_when: false
   rescue:
     - name: "Join primary AD domain"

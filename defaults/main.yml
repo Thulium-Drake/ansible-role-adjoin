@@ -9,6 +9,7 @@ adjoin_kerberos_enctypes: 'aes256-cts arcfour-hmac-md5'
 # Configure sudo permissions for the administrative groups in this file
 adjoin_configure_sudo: False
 
+# Domains to join
 adjoin_domains:
   - { name: 'prod.example.com',
       workgroup: 'PROD',

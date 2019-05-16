@@ -1,6 +1,6 @@
 # ADJOIN role
-This role will join a Debian or RedHat machine to (up to two) an Active
-Directory domain(s). In order to use this role, you need the following:
+This role will join a Debian or RedHat machine to (an) Active Directory
+domain(s). In order to use this role, you need the following:
 
 Windows side:
 * AD domain set up and ready to use

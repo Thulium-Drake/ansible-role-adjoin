@@ -1,95 +1,54 @@
 ---
-- name: "Install required packages - Debian-like"
-  apt:
-    name:
-      - 'ldap-utils'
-      - 'krb5-user'
-      - 'samba-common'
-      - 'sudo'
-      - 'sssd-ad'
+- name: 'Include OS specific vars'
+  include_vars: "{{ ansible_os_family }}.yml"
+  no_log: True
+
+- name: 'Install required packages'
+  package:
+    name: "{{ packages }}"
     state: present
-  when: ansible_os_family == "Debian"
 
-- name: "Install required packages - RedHat-like"
-  yum:
-    name:
-      - 'openldap-clients'
-      - 'krb5-workstation'
-      - 'sssd'
-      - 'sudo'
-      - 'samba-winbind-clients'
-      - 'oddjob-mkhomedir'
-      - 'authconfig'
-    state: present
-  when: ansible_os_family == "RedHat"
-
-- name: "Configure OpenLDAP - Debian-Like"
+- name: 'Configure services'
   template:
-    dest: "/etc/ldap/ldap.conf"
-    src: "ldap.conf.j2"
+    dest: "{{ conffile.dest }}"
+    src: "{{ conffile.src }}"
     mode: 0644
     owner: 'root'
     group: 'root'
-  when: ansible_os_family == "Debian"
+  loop:
+    - {src: 'ldap.conf.j2', dest: "{{ openldap_conffile }}"}
+    - {src: 'krb5.conf.j2', dest: '/etc/krb5.conf'}
+  loop_control:
+    loop_var: 'conffile'
 
-- name: "Configure OpenLDAP - RedHat-Like"
+- name: "Configure Samba for each domain"
   template:
-    dest: "/etc/openldap/ldap.conf"
-    src: "ldap.conf.j2"
-    mode: 0644
-    owner: 'root'
-    group: 'root'
-  when: ansible_os_family == "RedHat"
-
-- name: "Configure Kerberos"
-  template:
-    dest: "/etc/krb5.conf"
-    src: "krb5.conf.j2"
-    mode: 0644
-    owner: 'root'
-    group: 'root'
-
-- name: "Configure Samba - primary domain"
-  template:
-    dest: "/etc/samba/smb_main.conf"
+    dest: "/etc/samba/smb_{{ domain.name }}.conf"
     src: "smb.conf.j2"
     mode: 0644
     owner: 'root'
     group: 'root'
-
-- name: "Configure Samba - secondary (management) domain"
-  template:
-    dest: "/etc/samba/smb_mgmt.conf"
-    src: "smb_mgmt.conf.j2"
-    mode: 0644
-    owner: 'root'
-    group: 'root'
-  when: adjoin_mgmt_enabled
+  loop: "{{ adjoin_domains }}"
+  loop_control:
+    loop_var: 'domain'
 
 - block:
     - name: "Check AD connection with testjoin"
-      command: "timeout 5 /usr/bin/net ads testjoin -s /etc/samba/smb_main.conf"
+      command: "timeout 5 /usr/bin/net ads testjoin -s /etc/samba/smb_{{ domain.name }}.conf"
       changed_when: false
+      loop: "{{ adjoin_domains }}"
+      loop_control:
+        loop_var: 'domain'
   rescue:
-    - name: "Join primary AD domain"
-      command: '/usr/bin/net ads join -s /etc/samba/smb_main.conf \
-        -U{{ adjoin_service_username }}%{{ adjoin_service_userpassword }} \
+    - name: "Join AD domain"
+      command: '/usr/bin/net ads join -s /etc/samba/smb_{{ domain.name }}.conf \
+        -U{{ domain.username }}%{{ domain.password }} \
         osName="{{ ansible_distribution }}" \
         osVer="{{ ansible_distribution_version }}" \
-        createcomputer={{ adjoin_computer_objects_path }}'
-
-- block:
-    - name: "Check AD connection with testjoin"
-      command: '/usr/bin/net ads testjoin -s /etc/samba/smb_mgmt.conf < /dev/null'
-      changed_when: false
-  rescue:
-    - name: "Join secondary (management) AD domain"
-      command: '/usr/bin/net ads join -s /etc/samba/smb_mgmt.conf \
-        -U{{ adjoin_mgmt_service_username }}%{{ adjoin_mgmt_service_userpassword }} \
-        osName="{{ ansible_distribution }}" \
-        osVer="{{ ansible_distribution_version }}" \
-        createcomputer={{ adjoin_mgmt_computer_objects_path }}'
-  when: adjoin_mgmt_enabled
+        createcomputer={{ domain.computer_objects_path }}'
+      loop: "{{ adjoin_domains }}"
+      loop_control:
+        loop_var: 'domain'
 
 - name: "Configure SSSD"
   template:
@@ -105,24 +64,27 @@
 
 - name: "Configure services - Common"
   systemd:
-    name: "{{ item.name }}"
-    enabled: "{{ item.enabled }}"
-    masked: "{{ item.masked }}"
-    state: "{{ item.state }}"
+    name: "{{ service.name }}"
+    enabled: "{{ service.enabled }}"
+    masked: "{{ service.masked }}"
+    state: "{{ service.state }}"
   loop:
     - {'name':'sssd', 'enabled':'yes', 'masked':'no', 'state':'started'}
     - {'name':'dbus', 'enabled':'yes', 'masked':'no', 'state':'started'}
     - {'name':'systemd-logind', 'enabled':'no', 'masked':'yes', 'state':'stopped'}
+  loop_control:
+    loop_var: 'service'
 
-- name: "Configure extra services - RedHat-like"
+- name: "Configure services - OS-specific"
   systemd:
-    name: "{{ item.name }}"
-    enabled: "{{ item.enabled }}"
-    masked: "{{ item.masked }}"
-    state: "{{ item.state }}"
-  loop:
-    - {'name':'oddjobd', 'enabled':'yes', 'masked':'no', 'state':'started'}
-  when: ansible_os_family == "RedHat"
+    name: "{{ service.name }}"
+    enabled: "{{ service.enabled }}"
+    masked: "{{ service.masked }}"
+    state: "{{ service.state }}"
+  loop: "{{ os_specific_services }}"
+  loop_control:
+    loop_var: 'service'
+  when: os_specific_services is defined
 
 - name: "Configure Sudo permissions for admin users"
   template:

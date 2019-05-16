@@ -7,7 +7,7 @@
 
 [libdefaults]
   permitted_enctypes = {{ adjoin_kerberos_enctypes }}
-  default_realm = {% if adjoin_mgmt_enabled %} {{ adjoin_mgmt_domain_name|upper }} {% else %} {{ adjoin_domain_name|upper }} {% endif %}
+  default_realm = {% for domain in adjoin_domains %} {{ domain.name }} {{ "," if not loop.last else "" }} {% endfor %}
 
   dns_lookup_realm = true
   dns_lookup_kdc = true
@@ -18,31 +18,21 @@
   default_tgs_enctypes = {{ adjoin_kerberos_enctypes }}
 
 [realms]
-  {{ adjoin_domain_name|upper }} = {
-    {% for domain_controller in adjoin_domain_controllers %}
+{% for domain in adjoin_domains %}
+  {{ domain.name|upper }} = {
+    {% for domain_controller in domain.domain_controllers %}
 kdc = {{ domain_controller }}
     {% endfor %}
-admin_server = {{ adjoin_domain_controllers[0] }}
-    default_realm = {{ adjoin_domain_name }}
+admin_server = {{ domain.domain_controllers[0] }}
+    default_realm = {{ domain.name }}
     }
-
-{% if adjoin_mgmt_enabled %}
-  {{ adjoin_mgmt_domain_name|upper }} = {
-    {% for domain_controller in adjoin_mgmt_domain_controllers %}
-kdc = {{ domain_controller }}
-    {% endfor %}
-admin_server = {{ adjoin_mgmt_domain_controllers[0] }}
-    default_realm = {{ adjoin_mgmt_domain_name }}
-    }
-{% endif %}
+{% endfor %}
 
 [domain_realm]
-  .{{ adjoin_domain_name }} = {{ adjoin_domain_name|upper }}
-  {{ adjoin_domain_name }} = {{ adjoin_domain_name|upper }}
-  {% if adjoin_mgmt_enabled %}
-  .{{ adjoin_mgmt_domain_name }} = {{ adjoin_mgmt_domain_name|upper }}
-  {{ adjoin_mgmt_domain_name }} = {{ adjoin_mgmt_domain_name|upper }}
-  {% endif %}
+{% for domain in adjoin_domains %}
+  .{{ domain.name }} = {{ domain.name|upper }}
+  {{ domain.name }} = {{ domain.name|upper }}
+{% endfor %}
 
 [appdefaults]
   pam = {

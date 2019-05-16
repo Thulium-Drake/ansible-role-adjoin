@@ -1,5 +1,5 @@
 # {{ ansible_managed }}
 
-uri {% if adjoin_mgmt_enabled %} {% for domain_controller in adjoin_mgmt_domain_controllers %} ldap://{{ domain_controller }} {% endfor %} {% endif %} {% for domain_controller in adjoin_domain_controllers %} ldap://{{ domain_controller }} {%- endfor %}
+uri {% for domain in adjoin_domains %} {% for domain_controller in domain.domain_controllers %} ldap://{{ domain_controller }} {% endfor %} {% endfor %}
 
 scope sub

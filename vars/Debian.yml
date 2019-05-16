@@ -1,0 +1,10 @@
+---
+packages:
+  - 'ldap-utils'
+  - 'krb5-user'
+  - 'samba-common'
+  - 'sudo'
+  - 'sssd-ad'
+  - 'sssd-tools'
+
+openldap_conffile: '/etc/ldap/ldap.conf'

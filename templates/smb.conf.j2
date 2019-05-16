@@ -1,8 +1,8 @@
 # {{ ansible_managed }}
 
 [global]
-  realm = {{ adjoin_domain_name|upper }}
-  workgroup = {{ adjoin_workgroup_name }}
+  realm = {{ domain.name|upper }}
+  workgroup = {{ domain.workgroup }}
   security = ADS
   client signing = yes
   client use spnego = yes

@@ -4,3 +4,15 @@ pipeline:
     image: quay.io/ansible/molecule
     commands:
       - 'molecule lint'
+      - 'molecule syntax'
+
+  test:
+    image: quay.io/ansible/molecule
+    commands:
+      - 'molecule cleanup'
+      - 'molecule destroy'
+      - 'molecule converge'
+      - 'molecule idempotence'
+      - 'molecule verify'
+      - 'molecule cleanup'
+      - 'molecule destroy'

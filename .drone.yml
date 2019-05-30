@@ -1,0 +1,6 @@
+---
+pipeline:
+  lint:
+    image: quay.io/ansible/molecule
+    commands:
+      - 'molecule lint'

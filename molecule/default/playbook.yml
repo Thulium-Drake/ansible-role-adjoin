@@ -1,6 +1,8 @@
 ---
 - name: Converge
   hosts: all
+  roles:
+    - name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
   vars:
     adjoin_domains:
       - { name: 'dom1.lab',
@@ -23,5 +25,3 @@
           linux_admins: 'Domain Admins',
           username: 'administrator',
           password: 'Password1@' }
-  roles:
-    - name: 'adjoin'

@@ -17,9 +17,6 @@ local Converge(distro) = {
   steps: [
     {
       name: "Converge and verify - "+distro,
-      environment: [
-        "MOLECULE_DISTRO="+distro,
-      ],
       image: "quay.io/ansible/molecule",
       commands: [
         "molecule cleanup",
@@ -42,8 +39,8 @@ local Converge(distro) = {
   Lint(),
   Converge("debian9"),
   Converge("debian8"),
-  Converge("centos7"),
-  Converge("centos6"),
-  Converge("ubuntu1804"),
-  Converge("ubuntu1604")
+//  Converge("centos7"),
+//  Converge("centos6"),
+//  Converge("ubuntu1804"),
+//  Converge("ubuntu1604")
 ]

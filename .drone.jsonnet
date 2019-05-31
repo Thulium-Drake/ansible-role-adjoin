@@ -34,7 +34,11 @@ local Converge(distro) = {
         { name: "docker", path: "/var/run/docker.sock" },
       ],
     }
-  ]
+  ],
+  volumes: [
+    { name: "docker",
+      host: { path: "/var/run/docker.sock" } },
+  ],
 };
 
 [
@@ -45,10 +49,4 @@ local Converge(distro) = {
   Converge("centos6"),
   Converge("ubuntu1804"),
   Converge("ubuntu1604"),
-  {
-    volumes: [
-      { name: "docker",
-        host: { path: "/var/run/docker.sock" } },
-    ],
-  }
 ]

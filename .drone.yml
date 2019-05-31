@@ -25,6 +25,10 @@ steps:
     image: 'quay.io/ansible/molecule'
     commands:
       - 'molecule verify'
+    privileged: True
+    volumes:
+      - name: 'docker'
+        path: '/var/run/docker.sock'
 
   - name: 'Cleanup'
     image: 'quay.io/ansible/molecule'

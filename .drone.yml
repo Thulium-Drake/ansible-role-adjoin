@@ -1,12 +1,14 @@
 ---
-pipeline:
-  lint:
+kind: 'pipeline'
+name: 'default'
+steps:
+  - name: 'Lint code'
     image: 'quay.io/ansible/molecule'
     commands:
       - 'molecule lint'
       - 'molecule syntax'
 
-  converge:
+  - name: 'Create containers and converge'
     image: 'quay.io/ansible/molecule'
     commands:
       - 'molecule cleanup'
@@ -19,7 +21,7 @@ pipeline:
       - name: 'docker'
         path: '/var/run/docker.sock'
 
-  verify:
+  - name: 'Verify result'
     image: 'quay.io/ansible/molecule'
     commands:
       - 'molecule verify'
@@ -28,7 +30,7 @@ pipeline:
       - name: 'docker'
         path: '/var/run/docker.sock'
 
-  cleanup:
+  - name: 'Cleanup'
     image: 'quay.io/ansible/molecule'
     commands:
       - 'molecule cleanup'
@@ -37,8 +39,11 @@ pipeline:
     volumes:
       - name: 'docker'
         path: '/var/run/docker.sock'
-    when:
-      status:  [ 'failure', 'success' ]
+
+volumes:
+  - name: 'docker'
+    host:
+      path: '/var/run/docker.sock'
 
 matrix:
   MOLECULE_DISTRO:
@@ -48,8 +53,3 @@ matrix:
     - 'centos6'
     - 'ubuntu1804'
     - 'ubuntu1604'
-
-volumes:
-  - name: 'docker'
-    host:
-      path: '/var/run/docker.sock'

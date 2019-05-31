@@ -1,13 +1,15 @@
 ---
-pipeline:
-  lint:
-    image: quay.io/ansible/molecule
+kind: 'pipeline'
+name: 'default'
+steps:
+  - name: 'Lint'
+    image: 'quay.io/ansible/molecule'
     commands:
       - 'molecule lint'
       - 'molecule syntax'
 
-  test:
-    image: quay.io/ansible/molecule
+  - name: 'test'
+    image: 'quay.io/ansible/molecule'
     commands:
       - 'molecule cleanup'
       - 'molecule --debug destroy'
@@ -17,3 +19,11 @@ pipeline:
       - 'molecule cleanup'
       - 'molecule destroy'
     privileged: True
+    volumes:
+      - name: 'docker'
+        path: '/var/run/docker.sock'
+
+volumes:
+  - name: 'docker'
+    host:
+      path: '/var/run/docker.sock'

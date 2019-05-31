@@ -1,4 +1,5 @@
 local Lint() = {
+  name: "Lint"
   kind: "pipeline",
   steps: [
     {
@@ -14,9 +15,9 @@ local Lint() = {
 
 local Converge(distro) = {
   kind: "pipeline",
+  name: "Converge and verify - "+distro,
   steps: [
     {
-      name: "Converge and verify - "+distro,
       image: "quay.io/ansible/molecule",
       commands: [
         "molecule cleanup",

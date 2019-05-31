@@ -1,23 +1,12 @@
 ---
-kind: 'pipeline'
-name: 'default'
-matrix:
-  DISTRO:
-    - 'debian9'
-    - 'debian8'
-    - 'centos7'
-    - 'centos6'
-    - 'ubuntu1804'
-    - 'ubuntu1604'
-
-steps:
-  - name: 'Lint code'
+pipeline:
+  lint:
     image: 'quay.io/ansible/molecule'
     commands:
       - 'molecule lint'
       - 'molecule syntax'
 
-  - name: 'Create containers and converge'
+  converge:
     image: 'quay.io/ansible/molecule'
     environment:
       - MOLECULE_DISTRO=${DISTRO}
@@ -32,7 +21,7 @@ steps:
       - name: 'docker'
         path: '/var/run/docker.sock'
 
-  - name: 'Verify result'
+  verify:
     image: 'quay.io/ansible/molecule'
     commands:
       - 'molecule verify'
@@ -41,7 +30,7 @@ steps:
       - name: 'docker'
         path: '/var/run/docker.sock'
 
-  - name: 'Cleanup'
+  cleanup:
     image: 'quay.io/ansible/molecule'
     commands:
       - 'molecule cleanup'
@@ -50,6 +39,17 @@ steps:
     volumes:
       - name: 'docker'
         path: '/var/run/docker.sock'
+    when:
+      status:  [ 'failure', 'success' ]
+
+matrix:
+  DISTRO:
+    - 'debian9'
+    - 'debian8'
+    - 'centos7'
+    - 'centos6'
+    - 'ubuntu1804'
+    - 'ubuntu1604'
 
 volumes:
   - name: 'docker'

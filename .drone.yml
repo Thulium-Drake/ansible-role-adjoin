@@ -8,8 +8,6 @@ pipeline:
 
   converge:
     image: 'quay.io/ansible/molecule'
-    environment:
-      - MOLECULE_DISTRO=${DISTRO}
     commands:
       - 'molecule cleanup'
       - 'molecule destroy'
@@ -43,7 +41,7 @@ pipeline:
       status:  [ 'failure', 'success' ]
 
 matrix:
-  DISTRO:
+  MOLECULE_DISTRO:
     - 'debian9'
     - 'debian8'
     - 'centos7'

@@ -1,3 +1,5 @@
+[![Build Status](https://drone.element-networks.nl/api/badges/Element-Networks/ansible-role-adjoin/status.svg)](https://drone.element-networks.nl/Element-Networks/ansible-role-adjoin)
+
 # ADJOIN role
 This role will join a Debian or RedHat machine to (an) Active Directory
 domain(s). In order to use this role, you need the following:

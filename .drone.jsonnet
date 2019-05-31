@@ -17,6 +17,8 @@ local Converge(distro) = {
   steps: [
     {
       name: "Converge and verify - "+distro,
+      environment: [
+        "MOLECULE_DISTRO="+distro
       image: "quay.io/ansible/molecule",
       commands: [
         "molecule cleanup",
@@ -25,7 +27,7 @@ local Converge(distro) = {
         "molecule converge",
         "molecule idempotence",
         "molecule verify",
-        "molecule cleanup",
+        "molecule cleanup"
       ],
       privileged: true,
       volumes: [

@@ -20,7 +20,7 @@ steps:
   - name: 'Create containers and converge'
     image: 'quay.io/ansible/molecule'
     environment:
-      - "MOLECULE_DISTRO=${DISTRO}"
+      - MOLECULE_DISTRO=${DISTRO}
     commands:
       - 'molecule cleanup'
       - 'molecule destroy'

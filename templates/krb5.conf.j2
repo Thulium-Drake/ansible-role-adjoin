@@ -7,7 +7,7 @@
 
 [libdefaults]
   permitted_enctypes = {{ adjoin_kerberos_enctypes }}
-  default_realm = {% for domain in adjoin_domains %} {{ domain.name }} {{ "," if not loop.last else "" }} {% endfor %}
+  default_realm = {{ adjoin_domains[0].name }}
 
   dns_lookup_realm = true
   dns_lookup_kdc = true

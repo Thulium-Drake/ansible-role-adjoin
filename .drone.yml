@@ -1,6 +1,15 @@
 ---
 kind: 'pipeline'
 name: 'default'
+matrix:
+  DISTRO:
+    - 'debian9'
+    - 'debian8'
+    - 'centos7'
+    - 'centos6'
+    - 'ubuntu1804'
+    - 'ubuntu1604'
+
 steps:
   - name: 'Lint code'
     image: 'quay.io/ansible/molecule'
@@ -10,6 +19,8 @@ steps:
 
   - name: 'Create containers and converge'
     image: 'quay.io/ansible/molecule'
+    environment:
+      - "MOLECULE_DISTRO=${DISTRO}"
     commands:
       - 'molecule cleanup'
       - 'molecule destroy'

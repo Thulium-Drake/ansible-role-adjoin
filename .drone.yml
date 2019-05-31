@@ -11,7 +11,7 @@ pipeline:
     commands:
       - 'molecule cleanup'
       - 'molecule --debug destroy'
-      - 'molecule --debug converge'
+      - 'molecule converge'
       - 'molecule idempotence'
       - 'molecule verify'
       - 'molecule cleanup'

@@ -21,7 +21,7 @@ steps:
       - name: 'docker'
         path: '/var/run/docker.sock'
 
-  - name: 'Converge and verify'
+  - name: 'Verify result'
     image: 'quay.io/ansible/molecule'
     commands:
       - 'molecule verify'

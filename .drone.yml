@@ -18,8 +18,8 @@ pipeline:
       - 'molecule destroy'
     privileged: True
   volumes:
-  - name: docker
-    path: /var/run/docker.sock
+    - name: docker
+      path: /var/run/docker.sock
 
 volumes:
 - name: docker

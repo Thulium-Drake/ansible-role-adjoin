@@ -1,18 +1,23 @@
----
-kind: 'pipeline'
-name: 'default'
-steps:
-  - name: 'Lint code'
-    image: 'quay.io/ansible/molecule'
-    commands:
-      - 'molecule lint'
-      - 'molecule syntax'
+{
+  kind: "pipeline"
+  name: "default"
+  steps: [
+    {
+      name: "Lint code",
+      image: "quay.io/ansible/molecule",
+      commands: [
+        "molecule lint",
+        "molecule syntax"
+      ]
+    }
+  ]
+}
 
 local Pipeline(distro) = {
   kind: "pipeline",
   steps: [
     {
-      name: "Converge and verify",
+      name: "Converge and verify - "+distro,
       image: "quay.io/ansible/molecule",
       commands: [
         "molecule cleanup",

@@ -1,7 +1,5 @@
-// Lint code only once
 local Lint() = {
-  kind: "pipeline"
-  name: "default"
+  kind: "pipeline",
   steps: [
     {
       name: "Lint code",
@@ -39,7 +37,7 @@ local Converge(distro) = {
 };
 
 [
-  Lint
+  Lint(),
   Converge("debian9"),
   Converge("debian8"),
   Converge("centos7"),

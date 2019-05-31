@@ -1,4 +1,5 @@
-{
+// Lint code only once
+local Lint = {
   kind: "pipeline"
   name: "default"
   steps: [
@@ -13,7 +14,7 @@
   ]
 }
 
-local Pipeline(distro) = {
+local Converge(distro) = {
   kind: "pipeline",
   steps: [
     {
@@ -38,16 +39,11 @@ local Pipeline(distro) = {
 };
 
 [
-    Pipeline("debian9"),
-    Pipeline("debian8"),
-    Pipeline("centos7"),
-    Pipeline("centos6"),
-    Pipeline("ubuntu1804"),
-    Pipeline("ubuntu1604")
+  Lint
+  Converge("debian9"),
+  Converge("debian8"),
+  Converge("centos7"),
+  Converge("centos6"),
+  Converge("ubuntu1804"),
+  Converge("ubuntu1604")
 ]
-
-volumes:
-  - name: 'docker'
-    host:
-      path: '/var/run/docker.sock'
-

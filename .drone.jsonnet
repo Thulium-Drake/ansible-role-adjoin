@@ -1,5 +1,5 @@
 // Lint code only once
-local Lint = {
+local Lint() = {
   kind: "pipeline"
   name: "default"
   steps: [

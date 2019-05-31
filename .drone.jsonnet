@@ -10,7 +10,7 @@ local Lint() = {
       ]
     }
   ]
-}
+},
 
 local Converge(distro) = {
   kind: "pipeline",

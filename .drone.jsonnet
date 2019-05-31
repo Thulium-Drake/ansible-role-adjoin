@@ -27,7 +27,7 @@ local Converge(distro) = {
         "molecule converge",
         "molecule idempotence",
         "molecule verify",
-        "molecule cleanup"
+        "molecule cleanup",
       ],
       privileged: true,
       volumes: [
@@ -41,8 +41,14 @@ local Converge(distro) = {
   Lint(),
   Converge("debian9"),
   Converge("debian8"),
-//  Converge("centos7"),
-//  Converge("centos6"),
-//  Converge("ubuntu1804"),
-//  Converge("ubuntu1604")
+  Converge("centos7"),
+  Converge("centos6"),
+  Converge("ubuntu1804"),
+  Converge("ubuntu1604"),
+  {
+    volumes: [
+      { name: "docker",
+        host: { path: "/var/run/docker.sock" } },
+    ],
+  }
 ]

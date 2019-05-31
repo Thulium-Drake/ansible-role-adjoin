@@ -17,3 +17,11 @@ pipeline:
       - 'molecule cleanup'
       - 'molecule destroy'
     privileged: True
+  volumes:
+  - name: docker
+    path: /var/run/docker.sock
+
+volumes:
+- name: docker
+  host:
+    path: /var/run/docker.sock

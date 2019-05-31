@@ -8,48 +8,41 @@ steps:
       - 'molecule lint'
       - 'molecule syntax'
 
-  - name: 'Create containers and converge'
-    image: 'quay.io/ansible/molecule'
-    commands:
-      - 'molecule cleanup'
-      - 'molecule destroy'
-      - 'molecule create'
-      - 'molecule converge'
-      - 'molecule idempotence'
-    privileged: True
-    volumes:
-      - name: 'docker'
-        path: '/var/run/docker.sock'
+local Pipeline(distro) = {
+  kind: "pipeline",
+  steps: [
+    {
+      name: "Converge and verify",
+      image: "quay.io/ansible/molecule",
+      commands: [
+        "molecule cleanup",
+        "molecule destroy",
+        "molecule create",
+        "molecule converge",
+        "molecule idempotence",
+        "molecule verify",
+        "molecule cleanup",
+      ],
+      privileged: "true"
+      volumes: [
+        name: "docker",
+        path: "/var/run/docker.sock",
+      ],
+    }
+  ]
+};
 
-  - name: 'Verify result'
-    image: 'quay.io/ansible/molecule'
-    commands:
-      - 'molecule verify'
-    privileged: True
-    volumes:
-      - name: 'docker'
-        path: '/var/run/docker.sock'
-
-  - name: 'Cleanup'
-    image: 'quay.io/ansible/molecule'
-    commands:
-      - 'molecule cleanup'
-      - 'molecule destroy'
-    privileged: True
-    volumes:
-      - name: 'docker'
-        path: '/var/run/docker.sock'
+[
+    Pipeline("debian9"),
+    Pipeline("debian8"),
+    Pipeline("centos7"),
+    Pipeline("centos6"),
+    Pipeline("ubuntu1804"),
+    Pipeline("ubuntu1604")
+]
 
 volumes:
   - name: 'docker'
     host:
       path: '/var/run/docker.sock'
 
-matrix:
-  MOLECULE_DISTRO:
-    - 'debian9'
-    - 'debian8'
-    - 'centos7'
-    - 'centos6'
-    - 'ubuntu1804'
-    - 'ubuntu1604'

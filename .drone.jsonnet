@@ -1,5 +1,5 @@
 local Lint() = {
-  name: "Lint"
+  name: "Lint",
   kind: "pipeline",
   steps: [
     {

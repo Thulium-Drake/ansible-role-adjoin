@@ -8,11 +8,11 @@ steps:
       - 'molecule lint'
       - 'molecule syntax'
 
-  - name: 'test'
+  - name: 'Test'
     image: 'quay.io/ansible/molecule'
     commands:
       - 'molecule cleanup'
-      - 'molecule --debug destroy'
+      - 'molecule destroy'
       - 'molecule converge'
       - 'molecule idempotence'
       - 'molecule verify'

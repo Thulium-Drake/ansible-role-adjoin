@@ -8,12 +8,14 @@ steps:
       - 'molecule lint'
       - 'molecule syntax'
 
-  - name: 'Create test containers'
+  - name: 'Create containers and converge'
     image: 'quay.io/ansible/molecule'
     commands:
       - 'molecule cleanup'
       - 'molecule destroy'
       - 'molecule create'
+      - 'molecule converge'
+      - 'molecule idempotence'
     privileged: True
     volumes:
       - name: 'docker'
@@ -22,8 +24,6 @@ steps:
   - name: 'Converge and verify'
     image: 'quay.io/ansible/molecule'
     commands:
-      - 'molecule converge'
-      - 'molecule idempotence'
       - 'molecule verify'
 
   - name: 'Cleanup'

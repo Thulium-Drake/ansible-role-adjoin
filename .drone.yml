@@ -16,6 +16,14 @@ steps:
       - 'molecule converge'
       - 'molecule idempotence'
       - 'molecule verify'
+    privileged: True
+    volumes:
+      - name: 'docker'
+        path: '/var/run/docker.sock'
+
+  - name: 'Cleanup'
+    image: 'quay.io/ansible/molecule'
+    commands:
       - 'molecule cleanup'
       - 'molecule destroy'
     privileged: True
@@ -27,3 +35,4 @@ volumes:
   - name: 'docker'
     host:
       path: '/var/run/docker.sock'
+

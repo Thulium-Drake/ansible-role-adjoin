@@ -18,7 +18,7 @@ local Converge(distro) = {
   name: "Test - "+distro,
   steps: [
     {
-      name: "Converge and verify"
+      name: "Converge and verify",
       image: "quay.io/ansible/molecule",
       commands: [
         "molecule cleanup",

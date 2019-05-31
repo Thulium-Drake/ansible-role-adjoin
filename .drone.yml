@@ -2,24 +2,29 @@
 kind: 'pipeline'
 name: 'default'
 steps:
-  - name: 'Lint'
+  - name: 'Lint code'
     image: 'quay.io/ansible/molecule'
     commands:
       - 'molecule lint'
       - 'molecule syntax'
 
-  - name: 'Test'
+  - name: 'Create test containers'
     image: 'quay.io/ansible/molecule'
     commands:
       - 'molecule cleanup'
       - 'molecule destroy'
-      - 'molecule converge'
-      - 'molecule idempotence'
-      - 'molecule verify'
+      - 'molecule create'
     privileged: True
     volumes:
       - name: 'docker'
         path: '/var/run/docker.sock'
+
+  - name: 'Converge and verify'
+    image: 'quay.io/ansible/molecule'
+    commands:
+      - 'molecule converge'
+      - 'molecule idempotence'
+      - 'molecule verify'
 
   - name: 'Cleanup'
     image: 'quay.io/ansible/molecule'

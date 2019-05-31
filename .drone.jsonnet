@@ -10,7 +10,7 @@ local Lint() = {
       ]
     }
   ]
-},
+};
 
 local Converge(distro) = {
   kind: "pipeline",
@@ -27,10 +27,9 @@ local Converge(distro) = {
         "molecule verify",
         "molecule cleanup",
       ],
-      privileged: "true"
+      privileged: true,
       volumes: [
-        name: "docker",
-        path: "/var/run/docker.sock",
+        { name: "docker", path: "/var/run/docker.sock" },
       ],
     }
   ]

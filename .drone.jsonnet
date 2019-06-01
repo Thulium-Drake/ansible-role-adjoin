@@ -47,5 +47,4 @@ local Converge(distro) = {
   Converge("debian8"),
   Converge("centos7"),
   Converge("ubuntu1804"),
-  Converge("ubuntu1604"),
 ]

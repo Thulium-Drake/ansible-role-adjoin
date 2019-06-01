@@ -21,13 +21,10 @@ local Converge(distro) = {
       name: "Converge and verify",
       image: "quay.io/ansible/molecule",
       commands: [
-        "molecule cleanup",
         "molecule destroy",
-        "molecule create",
         "molecule converge",
         "molecule idempotence",
         "molecule verify",
-        "molecule cleanup",
         "molecule destroy",
       ],
       environment:

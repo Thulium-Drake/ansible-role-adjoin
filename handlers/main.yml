@@ -1,9 +1,11 @@
 ---
-- name: reconfigure debian pam
-  command: /usr/sbin/pam-auth-update --force
+- name: 'reconfigure debian pam'
+  command: '/usr/sbin/pam-auth-update --force'
+  environment:
+    DEBIAN_FRONTEND: 'noninteractive'
   when: ansible_os_family == "Debian"
 
-- name: reconfigure redhat pam
+- name: 'reconfigure redhat pam'
   command: "/usr/sbin/authconfig \
     --enablesssd --enablerfc2307bis \
     --enablesssdauth --disableforcelegacy \
@@ -11,11 +13,11 @@
     --enablepamaccess --updateall"
   when: ansible_os_family == "RedHat"
 
-- name: restart sssd
+- name: 'restart sssd'
   systemd:
-    name: sssd
-    state: restarted
+    name: 'sssd'
+    state: 'restarted'
 
-- name: clear sssd cache
-  command: /usr/sbin/sss_cache -E
-  ignore_errors: 'yes'
+- name: 'clear sssd cache'
+  command: '/usr/sbin/sss_cache -E'
+  ignore_errors: True

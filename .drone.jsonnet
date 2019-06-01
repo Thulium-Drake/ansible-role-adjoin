@@ -28,6 +28,7 @@ local Converge(distro) = {
         "molecule idempotence",
         "molecule verify",
         "molecule cleanup",
+        "molecule destroy",
       ],
       privileged: true,
       volumes: [
@@ -44,9 +45,9 @@ local Converge(distro) = {
 [
   Lint(),
   Converge("debian9"),
-  Converge("debian8"),
+//  Converge("debian8"),
   Converge("centos7"),
-  Converge("centos6"),
-  Converge("ubuntu1804"),
-  Converge("ubuntu1604"),
+//  Converge("centos6"),
+//  Converge("ubuntu1804"),
+//  Converge("ubuntu1604"),
 ]

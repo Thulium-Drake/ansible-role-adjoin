@@ -3,10 +3,8 @@
   include_vars: "{{ ansible_os_family }}.yml"
   no_log: True
 
-- name: 'Install required packages'
-  package:
-    name: "{{ packages }}"
-    state: present
+- name: 'Install packages'
+  include_tasks: "install-{{ ansible_os_family }}.yml"
 
 - name: 'Configure services'
   template:

@@ -6,5 +6,6 @@ packages:
   - 'sudo'
   - 'sssd-ad'
   - 'sssd-tools'
+  - 'dbus'
 
 openldap_conffile: '/etc/ldap/ldap.conf'

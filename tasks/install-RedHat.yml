@@ -1,0 +1,6 @@
+---
+- name: 'Install packages'
+  yum:
+    name: "{{ packages }}"
+    state: 'present'
+    update_cache: True

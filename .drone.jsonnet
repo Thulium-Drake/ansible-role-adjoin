@@ -11,9 +11,6 @@ local Converge(distro) = {
   environment:
     { MOLECULE_DISTRO: +distro, },
   privileged: true,
-  depends_on: [
-    "Lint",
-  ],
 };
 
 [
@@ -44,6 +41,9 @@ local Converge(distro) = {
       { name: "docker",
         host: { path: "/var/run/docker.sock" }
       },
+    ],
+    depends_on: [
+      "Lint",
     ],
   },
 ]

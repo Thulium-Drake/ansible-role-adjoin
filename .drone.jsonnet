@@ -11,6 +11,9 @@ local Converge(distro) = {
   environment:
     { MOLECULE_DISTRO: +distro, },
   privileged: true,
+  volumes: [
+    { name: "docker", path: "/var/run/docker.sock" },
+  ],
 };
 
 [

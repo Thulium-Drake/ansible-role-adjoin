@@ -31,24 +31,24 @@ local Converge(distro) = {
       }
     ]
   },
-  {
-    kind: "pipeline",
-    name: "Test",
-    steps: [
-      Converge("debian9"),
+//  {
+//    kind: "pipeline",
+//    name: "Test",
+//    steps: [
+//     Converge("debian9"),
 //      Converge("debian8"),
 //      Converge("centos7"),
 //      Converge("ubuntu1804"),
-    ],
-    volumes: [
-      { name: "docker",
-        host: { path: "/var/run/docker.sock" }
-      },
-    ],
-    depends_on: [
-      "Lint",
-    ],
-  },
+//    ],
+//    volumes: [
+//      { name: "docker",
+//        host: { path: "/var/run/docker.sock" }
+//      },
+//    ],
+//    depends_on: [
+//      "Lint",
+//    ],
+//  },
   {
     name: "Publish",
     kind: "pipeline",
@@ -64,8 +64,8 @@ local Converge(distro) = {
           { GALAXY_TOKEN: { from_secret: "galaxy_token" } },
       },
     ],
-    depends_on: [
-      "Test",
-    ],
+//    depends_on: [
+//      "Test",
+//    ],
   },
 ]

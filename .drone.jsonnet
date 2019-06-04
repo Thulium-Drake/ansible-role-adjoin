@@ -57,11 +57,11 @@ local Converge(distro) = {
         name: "Ansible Galaxy",
         image: "quay.io/ansible/molecule",
         commands: [
-          "echo token: $$GALAXY_TOKEN",
-          "ansible-galaxy login --github-token $$GALAXY_TOKEN -vvv",
+          "ansible-galaxy login --github-token $$GITHUB_TOKEN",
+          "ansible-galaxy import Thulium-Drake ansible-role-adjoin --role-name=adjoin",
         ],
         environment:
-          { GALAXY_TOKEN: { from_secret: "galaxy_token" } },
+          { GITHUB_TOKEN: { from_secret: "github_token" } },
       },
     ],
 //    depends_on: [

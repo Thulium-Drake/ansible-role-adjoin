@@ -49,4 +49,20 @@ local Converge(distro) = {
       "Lint",
     ],
   },
+  {
+    name: "Publish",
+    kind: "pipeline",
+    steps: [
+      {
+        name: "Ansible Galaxy",
+        image: "quay.io/ansible/molecule",
+        commands: [
+          "ansible-galaxy login --github-token",
+        ],
+      },
+    ],
+    depends_on: [
+      "Test",
+    ],
+  },
 ]

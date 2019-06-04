@@ -62,6 +62,12 @@ local Converge(distro) = {
         ],
         environment:
           { GITHUB_TOKEN: { from_secret: "github_token" } },
+        when:
+        {
+          event: [
+            "tag",
+          ],
+        },
       },
     ],
     depends_on: [

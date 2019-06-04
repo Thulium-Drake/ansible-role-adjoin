@@ -1,5 +1,5 @@
 local Converge(distro) = {
-  name: "Converge and verify - "+distro,
+  name: "Converge - "+distro,
   image: "quay.io/ansible/molecule",
   commands: [
     "molecule destroy",
@@ -57,8 +57,10 @@ local Converge(distro) = {
         name: "Ansible Galaxy",
         image: "quay.io/ansible/molecule",
         commands: [
-          "ansible-galaxy login --github-token",
+          "ansible-galaxy login --github-token $GALAXY_TOKEN",
         ],
+        environment:
+          { GALAXY_TOKEN: { from_secret: "galaxy_token" } },
       },
     ],
     depends_on: [

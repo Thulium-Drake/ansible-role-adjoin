@@ -57,7 +57,7 @@ local Converge(distro) = {
         name: "Ansible Galaxy",
         image: "quay.io/ansible/molecule",
         commands: [
-          "ansible-galaxy login --github-token $GALAXY_TOKEN",
+          "ansible-galaxy login --github-token $GALAXY_TOKEN -vvv",
         ],
         environment:
           { GALAXY_TOKEN: { from_secret: "galaxy_token" } },

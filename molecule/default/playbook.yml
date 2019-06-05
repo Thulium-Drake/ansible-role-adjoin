@@ -4,6 +4,7 @@
   roles:
     - name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
   vars:
+    adjoin_configure_sudo: True
     adjoin_domains:
       - { name: 'dom1.lab',
           workgroup: 'DOM1',
@@ -12,7 +13,7 @@
           ],
           ldap_base_dn: 'dc=dom1,dc=lab',
           computer_objects_path: 'Molecule/Computers',
-          linux_admins: 'Domain Admins',
+          linux_admins: 'dom1_lnx_admins',
           username: 'administrator',
           password: 'Password1@' }
       - { name: 'dom2.lab',
@@ -22,6 +23,6 @@
           ],
           ldap_base_dn: 'dc=dom2,dc=lab',
           computer_objects_path: 'Molecule/Computers',
-          linux_admins: 'Domain Admins',
+          linux_admins: 'dom2_lnx_admins',
           username: 'administrator',
           password: 'Password1@' }

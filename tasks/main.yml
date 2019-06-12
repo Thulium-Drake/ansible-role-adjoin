@@ -1,7 +1,7 @@
 ---
 - name: 'Include OS specific vars'
   include_vars: "{{ ansible_os_family }}.yml"
-  no_log: True
+  no_log: true
 
 - name: 'Install packages'
   include_tasks: "install-{{ ansible_os_family }}.yml"

@@ -19,4 +19,4 @@ def test_ad_user(host):
 
         # Test if the user can run sudo
         with host.sudo():
-            assert host.check_output("whoami") == 'root'
+            assert host.check_output('whoami') == 'root'

@@ -7,7 +7,7 @@ adjoin_sssd_default_shell: '/bin/bash'
 adjoin_kerberos_enctypes: 'aes256-cts arcfour-hmac-md5'
 
 # Configure sudo permissions for the administrative groups in this file
-adjoin_configure_sudo: False
+adjoin_configure_sudo: false
 
 # Domains to join
 adjoin_domains:

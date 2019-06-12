@@ -20,4 +20,4 @@
 
 - name: 'clear sssd cache'
   command: '/usr/sbin/sss_cache -E'
-  ignore_errors: True
+  ignore_errors: true

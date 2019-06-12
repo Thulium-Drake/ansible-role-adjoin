@@ -8,7 +8,7 @@ lint:
   options:
     config-file: 'molecule/default/yamllint.yml'
 platforms:
-  - name: "adjoin-${MOLECULE_DISTRO:-debian9}"
+  - name: "adjoin-docker"
     image: "geerlingguy/docker-${MOLECULE_DISTRO:-debian9}-ansible:latest"
     command: '/lib/systemd/systemd'
     pre_build_image: true

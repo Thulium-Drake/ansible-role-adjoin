@@ -7,7 +7,7 @@
 
 [libdefaults]
   permitted_enctypes = {{ adjoin_kerberos_enctypes }}
-  default_realm = {{ adjoin_domains[0].name }}
+  default_realm = {{ adjoin_domains[0].name|upper }}
 
   dns_lookup_realm = true
   dns_lookup_kdc = true

@@ -52,6 +52,8 @@ local Converge(distro) = {
   {
     name: "Publish",
     kind: "pipeline",
+    clone:
+      disable: true,
     steps: [
       {
         name: "Ansible Galaxy",

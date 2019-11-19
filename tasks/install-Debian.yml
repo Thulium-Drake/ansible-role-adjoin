@@ -3,4 +3,5 @@
   apt:
     name: "{{ packages }}"
     state: 'present'
+    install_recommends: true
     update_cache: true

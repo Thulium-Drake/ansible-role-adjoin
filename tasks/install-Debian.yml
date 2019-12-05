@@ -5,3 +5,14 @@
     state: 'present'
     install_recommends: true
     update_cache: true
+
+- name: 'Place PAM config'
+  copy:
+    src: 'ldaphomedir'
+    dest: '/usr/share/pam-configs/ldaphomedir'
+    mode: 0644
+  register: 'pam_configs'
+
+- name: 'Reconfigure PAM'
+  shell: 'DEBIAN_FRONTEND=noninteractive pam-auth-update --force'
+  when: pam_configs.changed

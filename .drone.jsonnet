@@ -27,7 +27,10 @@ local Converge(distro) = {
         commands: [
           "molecule lint",
           "molecule syntax"
-        ]
+        ],
+        volumes: [
+          { name: "docker", path: "/var/run/docker.sock" },
+        ],
       }
     ],
     volumes: [

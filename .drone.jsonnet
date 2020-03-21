@@ -29,7 +29,12 @@ local Converge(distro) = {
           "molecule syntax"
         ]
       }
-    ]
+    ],
+    volumes: [
+      { name: "docker",
+        host: { path: "/var/run/docker.sock" }
+      },
+    ],
   },
   {
     kind: "pipeline",

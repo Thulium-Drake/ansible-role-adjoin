@@ -32,6 +32,7 @@
     - name: 'Test sudo permissions'
       shell: sudo -n whoami
       check_mode: false
+      ignore_errors: true
       become: true
       become_user: "{{ user.name }}"
       loop: "{{ users }}"
@@ -42,7 +43,7 @@
     - name: 'Assert sudo permissions'
       assert:
         that:
-          - sudo_output['stdout'] == 'root'
-      loop: "{{ sudo_results }}"
+          - "'{{ sudo_result['stdout'] }}' == 'root'"
+      loop: "{{ sudo_results['results'] }}"
       loop_control:
         loop_var: 'sudo_result'

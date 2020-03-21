@@ -12,6 +12,8 @@
       user:
         name: "{{ user.name }}"
         state: 'present'
+        create_home: false
+        update_password: 'on_create'
       register: 'users_info'
       loop: "{{ users }}"
       loop_control:

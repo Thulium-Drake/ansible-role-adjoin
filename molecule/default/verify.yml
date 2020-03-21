@@ -1,0 +1,46 @@
+---
+- name: 'Verify'
+  hosts: 'all'
+  check_mode: true
+  gather_facts: false
+  vars:
+    users:
+      - { name: 'dom1usr', uid: 380801102 }
+      - { name: 'dom2usr', uid: 742801101 }
+  tasks:
+    - name: 'Gather info on useraccounts'
+      user:
+        name: "{{ user.name }}"
+        state: 'present'
+      register: 'users_info'
+      loop: "{{ users }}"
+      loop_control:
+        loop_var: 'user'
+
+    - name: 'Assert useraccounts'
+      assert:
+        that:
+          - "'{{ user_info[1]['name'] }}' == '{{ user_info[0]['user']['name'] }}'"
+          - "'{{ user_info[1]['uid'] }}' == '{{ user_info[0]['user']['uid'] }}'"
+          - "not {{ user_info[0]['changed'] }}"
+      loop: "{{ users_info['results']|zip(users)|list }}"
+      loop_control:
+        loop_var: 'user_info'
+
+    - name: 'Test sudo permissions'
+      shell: sudo -n whoami
+      check_mode: false
+      become: true
+      become_user: "{{ user.name }}"
+      loop: "{{ users }}"
+      loop_control:
+        loop_var: 'user'
+      register: 'sudo_results'
+
+    - name: 'Assert sudo permissions'
+      assert:
+        that:
+          - sudo_output['stdout'] == 'root'
+      loop: "{{ sudo_results }}"
+      loop_control:
+        loop_var: 'sudo_result'

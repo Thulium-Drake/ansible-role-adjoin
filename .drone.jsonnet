@@ -1,6 +1,6 @@
 local Converge(distro) = {
   name: "Converge - "+distro,
-  image: "quay.io/ansible/molecule",
+  image: "registry.element-networks.nl/tools/molecule",
   commands: [
     "molecule destroy",
     "molecule converge",
@@ -23,7 +23,7 @@ local Converge(distro) = {
     steps: [
       {
         name: "Lint code",
-        image: "quay.io/ansible/molecule",
+        image: "registry.element-networks.nl/tools/molecule",
         commands: [
           "molecule lint",
           "molecule syntax"
@@ -57,7 +57,7 @@ local Converge(distro) = {
     steps: [
       {
         name: "Ansible Galaxy",
-        image: "quay.io/ansible/molecule",
+        image: "registry.element-networks.nl/tools/molecule",
         commands: [
           "ansible-galaxy login --github-token $$GITHUB_TOKEN",
           "ansible-galaxy import Thulium-Drake ansible-role-adjoin --role-name=adjoin",

@@ -1,4 +1,6 @@
 ---
+# Do we want logging on possible sensitive params when testing and joining our domains
+adjoin_no_log: true
 # Common settings for all domains
 adjoin_sssd_homedir: '/home/%u'
 adjoin_sssd_default_shell: '/bin/bash'

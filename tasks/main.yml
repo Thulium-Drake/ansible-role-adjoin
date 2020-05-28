@@ -13,6 +13,7 @@
     mode: 0644
     owner: 'root'
     group: 'root'
+  no_log: "{{ adjoin_no_log }}"
   loop:
     - {src: 'ldap.conf.j2', dest: "{{ openldap_conffile }}"}
     - {src: 'krb5.conf.j2', dest: '/etc/krb5.conf'}
@@ -26,6 +27,7 @@
     mode: 0644
     owner: 'root'
     group: 'root'
+  no_log: "{{ adjoin_no_log }}"
   loop: "{{ adjoin_domains }}"
   loop_control:
     loop_var: 'domain'
@@ -35,6 +37,7 @@
       command: "timeout 5 /usr/bin/net ads testjoin -s /etc/samba/smb_{{ domain.name }}.conf"
       changed_when: false
       loop: "{{ adjoin_domains }}"
+      no_log: "{{ adjoin_no_log }}"
       loop_control:
         loop_var: 'domain'
   rescue:
@@ -44,6 +47,7 @@
         osName="{{ ansible_distribution }}" \
         osVer="{{ ansible_distribution_version }}" \
         createcomputer={{ domain.computer_objects_path }}'
+      no_log: "{{ adjoin_no_log }}"
       loop: "{{ adjoin_domains }}"
       loop_control:
         loop_var: 'domain'
@@ -55,6 +59,7 @@
     mode: 0600
     owner: 'root'
     group: 'root'
+  no_log: "{{ adjoin_no_log }}"
   notify:
     - reconfigure redhat pam
     - reconfigure debian pam

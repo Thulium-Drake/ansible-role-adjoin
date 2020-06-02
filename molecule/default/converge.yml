@@ -4,6 +4,7 @@
   roles:
     - name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
   vars:
+    adjoin_no_log: false
     adjoin_configure_sudo: true
     adjoin_domains:
       - { name: 'dom1.lab',

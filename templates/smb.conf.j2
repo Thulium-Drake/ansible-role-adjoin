@@ -8,3 +8,4 @@
   client use spnego = yes
   kerberos method = secrets and keytab
   log file = /var/log/samba/%m.log
+  {% if ansible_hostname != adjoin_netbios_name -%}netbios name = {{ adjoin_netbios_name|upper }}{% endif %}

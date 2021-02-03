@@ -21,11 +21,14 @@ fallback_homedir = {{ adjoin_sssd_homedir }}
 default_shell = {{ adjoin_sssd_default_shell }}
 use_fully_qualified_names = {{ domain.use_fully_qualified_names | default(true) }}
 
-dyndns_update = {{ domain.dyndns_update | default(false) }}
-# The following are only applicable when dyndns_update is true
+{% if domain.dyndns_update | default(false) -%}
+dyndns_update = true
 dyndns_refresh_interval = {{ domain.dyndns_refresh_interval | default(86400) }}
 dyndns_update_ptr = {{ domain.dyndns_update_prt | default(true) }}
 dyndns_ttl = {{ domain.dyndns_ttl | default(3600) }}
+{% else -%}
+dyndns_update = false
+{% endif %}
 
 dns_resolver_timeout = 12
 debug_level = 3

@@ -8,6 +8,7 @@ adjoin_sssd_default_shell: '/bin/bash'
 # Please note that disabling arcfour-hmac-md5 can NOT be done without some
 # work on the AD controller's side
 adjoin_kerberos_enctypes: 'aes256-cts arcfour-hmac-md5'
+adjoin_netbios_name: "{{ ansible_hostname|truncate(15, False, '', 0) }}"
 
 # Configure sudo permissions for the administrative groups in this file
 adjoin_configure_sudo: false
@@ -22,6 +23,12 @@ adjoin_domains:
       ],
       ldap_base_dn: 'dc=prod,dc=example,dc=com',
       computer_objects_path: 'SomeOU/Computers',
+      dyndns_update: false,
+      # The following are only used if dyndns_update is true
+      dyndns_refresh_interval: 86400, # 24 hours
+      dyndns_ttl: 3600, # 1 hour
+      dyndns_update_ptr: true,
+      # end dyndns_update section
       linux_admins: 'Linux Domain Admins',
       username: 'administrator',
       password: 'password' }

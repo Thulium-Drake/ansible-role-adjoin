@@ -8,7 +8,7 @@ adjoin_sssd_default_shell: '/bin/bash'
 # Please note that disabling arcfour-hmac-md5 can NOT be done without some
 # work on the AD controller's side
 adjoin_kerberos_enctypes: 'aes256-cts arcfour-hmac-md5'
-adjoin_netbios_name: "{{ ansible_hostname|truncate(15, False, '', 0) }}"
+adjoin_netbios_name: "{{ ansible_hostname[:15] }}"
 
 # Configure sudo permissions for the administrative groups in this file
 adjoin_configure_sudo: false

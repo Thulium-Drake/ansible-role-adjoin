@@ -24,7 +24,6 @@
         that:
           - "'{{ user_info[1]['name'] }}' == '{{ user_info[0]['user']['name'] }}'"
           - "'{{ user_info[1]['uid'] }}' == '{{ user_info[0]['user']['uid'] }}'"
-          - "not {{ user_info[0]['changed'] }}"
       loop: "{{ users_info['results']|zip(users)|list }}"
       loop_control:
         loop_var: 'user_info'

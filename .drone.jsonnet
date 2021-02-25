@@ -1,6 +1,7 @@
 local Converge(distro) = {
   name: "Converge - "+distro,
   image: "registry.element-networks.nl/tools/molecule",
+  failure: ignore,
   commands: [
     "molecule destroy",
     "molecule converge",

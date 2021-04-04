@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  author: Jeffrey van Pelt
+  author: thulium_drake
   description: Active Directory join for multiple domains
   company:
   role_name: adjoin

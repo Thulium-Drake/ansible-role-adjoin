@@ -3,7 +3,7 @@ dependency:
   name: 'galaxy'
 driver:
   name: ${DRIVER_NAME:-docker}
-lint: |
+lint:
   set -e
   yamllint molecule/default/yamllint.yml .
   ansible-lint molecule/default/converge.yml

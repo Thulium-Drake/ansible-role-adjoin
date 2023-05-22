@@ -1,18 +1,18 @@
 ---
 - name: 'Include OS specific vars'
-  include_vars: "{{ ansible_os_family }}.yml"
+  ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"
   no_log: "{{ adjoin_no_log }}"
 
 - name: "NetBIOS Name"
-  debug:
+  ansible.builtin.debug:
     msg: "Warning! NetBIOS name is not the same as the hostname. If you did not set it, the hostname has been truncated to 15 characters: {{ adjoin_netbios_name }}"
   when: ansible_hostname != adjoin_netbios_name
 
 - name: 'Install packages'
-  include_tasks: "install-{{ ansible_os_family }}.yml"
+  ansible.builtin.include_tasks: "install-{{ ansible_os_family }}.yml"
 
 - name: 'Configure services'
-  template:
+  ansible.builtin.template:
     dest: "{{ conffile.dest }}"
     src: "{{ conffile.src }}"
     mode: 0644
@@ -26,7 +26,7 @@
     loop_var: 'conffile'
 
 - name: "Configure Samba for each domain"
-  template:
+  ansible.builtin.template:
     dest: "/etc/samba/smb_{{ domain.name }}.conf"
     src: "smb.conf.j2"
     mode: 0644
@@ -37,9 +37,10 @@
   loop_control:
     loop_var: 'domain'
 
-- block:
+- name: 'Check AD connection'
+  block:
     - name: "Check AD connection with testjoin"
-      command: "timeout 5 /usr/bin/net ads testjoin -s /etc/samba/smb_{{ domain.name }}.conf"
+      ansible.builtin.command: "timeout 5 /usr/bin/net ads testjoin -s /etc/samba/smb_{{ domain.name }}.conf"
       changed_when: false
       loop: "{{ adjoin_domains }}"
       no_log: "{{ adjoin_no_log }}"
@@ -47,18 +48,19 @@
         loop_var: 'domain'
   rescue:
     - name: "Join AD domain"
-      command: '/usr/bin/net ads join -s /etc/samba/smb_{{ domain.name }}.conf \
+      ansible.builtin.command: '/usr/bin/net ads join -s /etc/samba/smb_{{ domain.name }}.conf \
         -U{{ domain.username }}%{{ domain.password }} \
         osName="{{ ansible_distribution }}" \
         osVer="{{ ansible_distribution_version }}" \
         createcomputer={{ domain.computer_objects_path }}'
       no_log: "{{ adjoin_no_log }}"
       loop: "{{ adjoin_domains }}"
+      changed_when: true
       loop_control:
         loop_var: 'domain'
 
 - name: "Configure SSSD"
-  template:
+  ansible.builtin.template:
     dest: "/etc/sssd/sssd.conf"
     src: "sssd.conf.j2"
     mode: 0600
@@ -71,7 +73,7 @@
     - clear sssd cache
 
 - name: "Configure services - Common"
-  systemd:
+  ansible.builtin.systemd:
     name: "{{ service.name }}"
     enabled: "{{ service.enabled }}"
     masked: "{{ service.masked }}"
@@ -84,7 +86,7 @@
     loop_var: 'service'
 
 - name: "Configure services - OS-specific"
-  systemd:
+  ansible.builtin.systemd:
     name: "{{ service.name }}"
     enabled: "{{ service.enabled }}"
     masked: "{{ service.masked }}"
@@ -95,7 +97,7 @@
   when: os_specific_services is defined
 
 - name: "Configure Sudo permissions for admin users"
-  template:
+  ansible.builtin.template:
     dest: "/etc/sudoers.d/10_linux_admins"
     src: "sudoers_10_linux_admins"
     mode: 0440

@@ -9,7 +9,7 @@
       - { name: 'dom2usr', uid: 742801101 }
   tasks:
     - name: 'Gather info on useraccounts'
-      user:
+      ansible.builtin.user:
         name: "{{ user.name }}"
         state: 'present'
         create_home: false
@@ -20,18 +20,18 @@
         loop_var: 'user'
 
     - name: 'Assert useraccounts'
-      assert:
+      ansible.builtin.assert:
         that:
           - "'{{ user_info[1]['name'] }}' == '{{ user_info[0]['user']['name'] }}'"
           - "'{{ user_info[1]['uid'] }}' == '{{ user_info[0]['user']['uid'] }}'"
-      loop: "{{ users_info['results']|zip(users)|list }}"
+      loop: "{{ users_info['results'] | zip(users) | list }}"
       loop_control:
         loop_var: 'user_info'
 
     - name: 'Test sudo permissions'
-      shell: sudo -n whoami
+      ansible.builtin.command: sudo -n whoami
       check_mode: false
-      ignore_errors: true
+      changed_when: true
       become: true
       become_user: "{{ user.name }}"
       loop: "{{ users }}"
@@ -40,7 +40,7 @@
       register: 'sudo_results'
 
     - name: 'Assert sudo permissions'
-      assert:
+      ansible.builtin.assert:
         that:
           - "'{{ sudo_result['stdout'] }}' == 'root'"
       loop: "{{ sudo_results['results'] }}"

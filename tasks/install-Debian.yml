@@ -1,14 +1,14 @@
 ---
 - name: 'Install packages'
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: 'present'
     install_recommends: true
     update_cache: true
 
 - name: 'Place PAM config'
-  copy:
+  ansible.builtin.copy:
     src: 'ldaphomedir'
     dest: '/usr/share/pam-configs/ldaphomedir'
-    mode: 0644
+    mode: '0644'
   notify: 'reconfigure debian pam'

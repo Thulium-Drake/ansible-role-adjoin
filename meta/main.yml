@@ -2,25 +2,17 @@
 galaxy_info:
   author: thulium_drake
   description: Active Directory join for multiple domains
-  company:
   role_name: adjoin
 
   license: GPLv3
 
-  min_ansible_version: 2.7
+  min_ansible_version: '2.10'
 
   platforms:
-    - name: EL
-      versions:
-        - 7
     - name: Debian
       versions:
         - buster
-        - stretch
-        - jessie
-    - name: Ubuntu
-      versions:
-        - bionic
+        - bullseye
 
   galaxy_tags:
     - activedirectory

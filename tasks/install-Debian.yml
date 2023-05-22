@@ -11,4 +11,4 @@
     src: 'ldaphomedir'
     dest: '/usr/share/pam-configs/ldaphomedir'
     mode: '0644'
-  notify: 'reconfigure debian pam'
+  notify: 'Reconfigure debian pam'

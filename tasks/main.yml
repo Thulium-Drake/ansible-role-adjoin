@@ -68,9 +68,9 @@
     group: 'root'
   no_log: "{{ adjoin_no_log }}"
   notify:
-    - reconfigure redhat pam
-    - reconfigure debian pam
-    - clear sssd cache
+    - Reconfigure redhat pam
+    - Reconfigure debian pam
+    - Clear sssd cache
 
 - name: "Configure services - Common"
   ansible.builtin.systemd:

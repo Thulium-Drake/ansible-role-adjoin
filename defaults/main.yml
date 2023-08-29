@@ -15,20 +15,19 @@ adjoin_configure_sudo: false
 
 # Domains to join
 adjoin_domains:
-  - { name: 'prod.example.com',
-      workgroup: 'PROD',
-      domain_controllers: [
-        'dc1.prod.example.com',
-        'dc2.prod.example.com'
-      ],
-      ldap_base_dn: 'dc=prod,dc=example,dc=com',
-      computer_objects_path: 'SomeOU/Computers',
-      dyndns_update: false,
-      # The following are only used if dyndns_update is true
-      dyndns_refresh_interval: 86400,  # 24 hours
-      dyndns_ttl: 3600,  # 1 hour
-      dyndns_update_ptr: true,
-      # end dyndns_update section
-      linux_admins: 'Linux Domain Admins',
-      username: 'administrator',
-      password: 'password' }
+  - name: 'prod.example.com'
+    workgroup: 'PROD'
+    domain_controllers:
+      - 'dc1.prod.example.com'
+      - 'dc2.prod.example.com'
+    ldap_base_dn: 'dc=prod,dc=example,dc=com'
+    computer_objects_path: 'SomeOU/Computers'
+    dyndns_update: false
+    # The following are only used if dyndns_update is true
+    dyndns_refresh_interval: 86400  # 24 hours
+    dyndns_ttl: 3600  # 1 hour
+    dyndns_update_ptr: true
+    # end dyndns_update section
+    linux_admins: 'Linux Domain Admins'
+    username: 'administrator'
+    password: 'password'

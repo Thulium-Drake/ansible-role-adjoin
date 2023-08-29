@@ -5,7 +5,9 @@
 
 - name: "NetBIOS Name"
   ansible.builtin.debug:
-    msg: "Warning! NetBIOS name is not the same as the hostname. If you did not set it, the hostname has been truncated to 15 characters: {{ adjoin_netbios_name }}"
+    msg: >
+      Warning! NetBIOS name is not the same as the hostname.
+      If you did not set it, the hostname has been truncated to 15 characters: {{ adjoin_netbios_name }}"
   when: ansible_hostname != adjoin_netbios_name
 
 - name: 'Install packages'

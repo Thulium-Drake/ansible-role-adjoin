@@ -33,9 +33,20 @@ jobs:
           molecule syntax
           if test -e molecule/default/test.convergence
           then
-            molecule converge
-            molecule idempotence
-            molecule destroy
+            for i in $(cat molecule/default/test.convergence)
+            do
+              echo "Testing Distro $i"
+              MOLECULE_DISTRO=$i molecule converge
+              molecule idempotence
+
+              if test -e molecule/default/verify.yml
+              then
+                molecule verify
+              fi
+
+              molecule destroy
+              echo "Distro $i succes"
+            done
           fi
       - name: Publish to Galaxy
         run: |

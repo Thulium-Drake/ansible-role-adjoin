@@ -1,6 +1,0 @@
----
-- name: 'Install packages'
-  ansible.builtin.yum:
-    name: "{{ packages }}"
-    state: 'present'
-    update_cache: true

@@ -11,7 +11,17 @@
   when: ansible_hostname != adjoin_netbios_name
 
 - name: 'Install packages'
-  ansible.builtin.include_tasks: "install-{{ ansible_os_family }}.yml"
+  ansible.builtin.package:
+    name: "{{ packages }}"
+    state: 'present'
+
+- name: 'Place PAM config'
+  ansible.builtin.copy:
+    src: 'ldaphomedir'
+    dest: '/usr/share/pam-configs/ldaphomedir'
+    mode: '0644'
+  notify: 'Reconfigure debian pam'
+  when: ansible_facts['os_family'] == 'Debian'
 
 - name: 'Configure services'
   ansible.builtin.template:

@@ -2,7 +2,7 @@
 dependency:
   name: 'galaxy'
 driver:
-  name: ${DRIVER_NAME:-docker}
+  name: ${DRIVER_NAME:-podman}
 platforms:
   - name: "adjoin-docker"
     image: "git.element-networks.nl/containers/${MOLECULE_DISTRO:-debian12}-ansible:latest"

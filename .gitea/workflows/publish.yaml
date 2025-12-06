@@ -11,21 +11,23 @@ on:  # yamllint disable-line rule:truthy
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
+    runs-on: rhel-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v4
-      - name: Ensure Python
-        uses: https://github.com/actions/setup-python@v4
+
+      - name: Log in to Forgejo Container Registry
+        uses: redhat-actions/podman-login@v1
         with:
-          python-version: '3.11'
-      - name: Install Molecule and dependencies
-        run: |
-          python -m pip install molecule molecule_docker ansible ansible-lint ansible-merge-vars yamllint
-          molecule --version
+          username: ${{ env.GITHUB_ACTOR }}
+          password: ${{ secrets.CONTAINER_REGISTRY_TOKEN }}
+          registry: git.element-networks.nl
+          auth_file_path: /run/containers/0/auth.json
+
       - name: Molecule tests
         run: |
           cd ${{ gitea.workspace }}
+          molecule --version
           molecule destroy
           molecule syntax
           if test -e molecule/default/test.convergence
@@ -45,6 +47,7 @@ jobs:
               echo "Distro $i succes"
             done
           fi
+
       - name: Publish to Galaxy
         run: |
           cd ${{ gitea.workspace }}

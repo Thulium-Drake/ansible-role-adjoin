@@ -32,7 +32,7 @@ It will also configure sudo permissions for a user-specified AD group. The
 default permissions given to this group is:
 
 ```
-ALL=(ALL) ALL:NOPASSWD
+ALL=(ALL) NOPASSWD:ALL
 ```
 
 There are 2 reasons for that:

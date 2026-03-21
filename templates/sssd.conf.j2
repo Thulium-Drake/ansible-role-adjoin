@@ -24,7 +24,7 @@ use_fully_qualified_names = {{ domain.use_fully_qualified_names | default(true) 
 {% if domain.dyndns_update | default(false) -%}
 dyndns_update = true
 dyndns_refresh_interval = {{ domain.dyndns_refresh_interval | default(86400) }}
-dyndns_update_ptr = {{ domain.dyndns_update_prt | default(true) }}
+dyndns_update_ptr = {{ domain.dyndns_update_ptr | default(true) }}
 dyndns_ttl = {{ domain.dyndns_ttl | default(3600) }}
 {% else -%}
 dyndns_update = false
